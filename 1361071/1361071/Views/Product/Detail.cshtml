@@ -1,0 +1,50 @@
+﻿@using _1361071.Models
+
+@model Product
+
+@section view_title{
+    Chi tiết sản phẩm
+}
+
+@section css {
+    <style type="text/css">
+        .caption-lg-orange {
+            font-weight: bold;
+            font-size: 12pt;
+            color: #fc6e04;
+        }
+
+        .caption-lg-red {
+            font-weight: bold;
+            font-size: 11pt;
+            color: #f00;
+        }
+
+        .padding {
+            padding-top: 8px;
+        }
+    </style>
+}
+
+@if (Model == null)
+{
+    <text>Sản phẩm không tồn tại!</text>
+} else {
+    <div class="row">
+        <div class="col-md-12">
+            <img src="/Imgs/sp/@Model.ProID/main.jpg" />
+        </div>
+        <div class="col-md-12 caption-lg-orange">
+            <h3>@Model.ProName</h3>
+        </div>
+        <div class="col-md-12 padding">
+            <span class="caption-lg-red">Giá bán: @string.Format("{0:N0}", Model.Price)</span>
+        </div>
+        <div class="col-md-12 padding">
+            Tồn kho: @Model.Quantity
+        </div>  
+        <div class="col-md-12 padding">
+            @Html.Raw(Model.FullDes)
+        </div>
+    </div>
+}

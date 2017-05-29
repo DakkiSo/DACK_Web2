@@ -1,0 +1,14 @@
+﻿@using _1361071.Models
+
+@model List<Category>
+
+
+
+<div class="list-group">
+    @foreach (var c in Model)
+{
+
+    <a href="@Url.Action("ByCat", "Product", new {id = @c.CatID })" class="list-group-item">@c.CatName</a>
+}
+</div>
+
