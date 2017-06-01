@@ -108,3 +108,5 @@ D:\visual studio 2013\Web2\LT\DACK\1361071\1361071\bin\Microsoft.Owin.Security.M
 D:\visual studio 2013\Web2\LT\DACK\1361071\1361071\obj\Debug\1361071.csprojResolveAssemblyReference.cache
 D:\visual studio 2013\Web2\LT\DACK\1361071\1361071\obj\Debug\1361071.dll
 D:\visual studio 2013\Web2\LT\DACK\1361071\1361071\obj\Debug\1361071.pdb
+D:\visual studio 2013\Web2\LT\DACK\1361071\1361071\bin\BotDetect.dll
+D:\visual studio 2013\Web2\LT\DACK\1361071\1361071\bin\BotDetect.Web.Mvc.dll
