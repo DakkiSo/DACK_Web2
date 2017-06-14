@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using _1361071.Models;
 using _1361071.Helpers;
 using BotDetect.Web.Mvc;
+using _1361071.Filters;
 
 namespace _1361071.Controllers
 {
@@ -34,13 +35,54 @@ namespace _1361071.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-            
             return View();
         }
 
         //
         // POST: /Account/Login
-    
+        [HttpPost]
+        public ActionResult Login(LoginVM model)
+        {
+            string encPwd = StringUtils.Md5(model.RawPWD);
+
+            using (QLBHEntities ctx = new QLBHEntities())
+            {
+                var user = ctx.Users
+                    .Where(u => u.f_Username == model.Username && u.f_Password == encPwd)
+                    .FirstOrDefault();
+
+                if (user != null)
+                {
+                    Session["isLogin"] = 1;
+                    Session["user"] = user;
+
+                    if(model.Remember)
+                    {
+                        Response.Cookies["x"].Value = user.f_ID.ToString();
+                        Response.Cookies["x"].Expires = DateTime.Now.AddDays(7);
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ViewBag.ErrorMsg = "Đăng nhập thất bại";
+                    return View();
+                }
+                   
+            }
+
+        }
+
+        //
+        // POST: /Account/Logout
+        [HttpPost]
+        public ActionResult Logout()
+        {
+            CurrentContent.destroy();
+            return RedirectToAction("Index", "Home");
+
+        }
 
         //
         // GET: /Account/Register
@@ -87,18 +129,17 @@ namespace _1361071.Controllers
             
         }
 
-              
-        //
-        // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
-        {
-            AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
-        }
 
-        
+        //
+        // GET: /Account/Profile
+        [CheckLogin]
+        public ActionResult Profile()
+        {
+
+            return View();
+        }
+    
+
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
